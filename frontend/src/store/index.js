@@ -1,17 +1,23 @@
 import { createStore } from "redux";
+import Search from "../components/Search";
 
 const initialState = {
   searchInput: "",
-  posts: []
+  posts: [],
+  search: []
 };
 
 const reducer = (state = initialState, action) => {
   //console.log(state, action);
   switch (action.type) {
-    case "TYPING":
-      return Object.assign({}, state, { searchInput: action.searchText });
     case "SEARCH":
-      return Object.assign({}, state, { posts: action.output });
+      return Object.assign({}, state);
+    case "TYPING":
+      const output = Search.searchTyping(state, action.searchText);
+      return Object.assign({}, state, {
+        searchInput: action.searchText,
+        posts: output
+      });
     case "START":
       return Object.assign({}, state, { posts: action.output });
     case "EDIT":

@@ -55,7 +55,10 @@ class Posts extends Component {
 }
 
 function mapStateToStatus(state) {
-  return { searchInput: state.searchInput, posts: state.posts };
+  return {
+    searchInput: state.searchInput,
+    posts: state.posts
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -65,13 +68,17 @@ function mapDispatchToProps(dispatch) {
         type: "TYPING",
         searchText: e.target.value
       };
-
       dispatch(action);
     },
-    handleSearch: () => {
-      //e.preventDefault();
+    handleSearch: e => {
+      e.preventDefault();
       //Api.getPosts(dispatch);
       console.log("submit");
+      const action = {
+        type: "SEARCH",
+        searchText: e.target.value
+      };
+      dispatch(action);
     },
     initial: () => {
       Api.getPosts(dispatch);
