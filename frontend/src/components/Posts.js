@@ -21,7 +21,7 @@ class Posts extends Component {
           </button>
         </form>
         <div className="mt-3">
-          {this.props.posts.map(post => {
+          {this.props.searchList.map(post => {
             return (
               <div
                 key={post.id}
@@ -57,7 +57,8 @@ class Posts extends Component {
 function mapStateToStatus(state) {
   return {
     searchInput: state.searchInput,
-    posts: state.posts
+    posts: state.posts,
+    searchList: state.searchList
   };
 }
 
