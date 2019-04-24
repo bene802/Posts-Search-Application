@@ -11,9 +11,14 @@ const reducer = (state = initialState, action) => {
   //console.log(state, action);
   switch (action.type) {
     case "SEARCH":
-      return Object.assign({}, state);
+      console.log(action.searchText);
+      let searchRes = Search.searchTyping(state, action.searchText, "");
+      return Object.assign({}, state, {
+        searchInput: action.searchText,
+        searchList: searchRes
+      });
     case "TYPING":
-      const output = Search.searchTyping(state, action.searchText);
+      let output = Search.searchTyping(state, action.searchText, "*");
       return Object.assign({}, state, {
         searchInput: action.searchText,
         searchList: output

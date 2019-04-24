@@ -1,10 +1,6 @@
 import lunr from "lunr";
 
-function searchTyping(props, searchText) {
-  //console.log(props.posts);
-  if (!searchText) {
-    searchText = "*";
-  }
+function searchTyping(props, searchText, str) {
   //lunr
   const mapPosts = props.posts.reduce(function(map, obj) {
     map[obj.id] = obj;
@@ -19,9 +15,20 @@ function searchTyping(props, searchText) {
     }, this);
   });
 
-  const searchRes = idx.query(function(q) {
-    q.term(String(searchText), { fields: ["title"] });
-  });
+  let searchStr = "";
+  if (!str) {
+    // search submit
+    searchText.split(" ").map(c => {
+      searchStr = searchStr + "+" + c + " ";
+    });
+    searchStr = searchStr.substring(0, searchStr.length - 1);
+  } else {
+    // search typing, fuzzy search to offer autosuggestion
+    searchStr = searchText + "*";
+  }
+  console.log(searchStr);
+  const searchRes = idx.search(searchStr);
+
   let output = [];
   searchRes.map(s => {
     output.push(mapPosts[s.ref]);

@@ -11,7 +11,9 @@ class Posts extends Component {
   render() {
     return (
       <div>
-        <div>
+        <form
+          onSubmit={e => this.props.handleSearch(e, this.props.searchInput)}
+        >
           <ReactAutocomplete
             items={this.props.searchList}
             getItemValue={item => item.title}
@@ -32,7 +34,7 @@ class Posts extends Component {
           <button type="submit" className="ml-2 btn btn-primary">
             Search
           </button>
-        </div>
+        </form>
         <div className="mt-5">Results:</div>
         <div className="mt-3">
           {this.props.searchList.map(post => {
@@ -85,13 +87,13 @@ function mapDispatchToProps(dispatch) {
       };
       dispatch(action);
     },
-    handleSearch: e => {
+    handleSearch: (e, v) => {
       e.preventDefault();
       //Api.getPosts(dispatch);
       console.log("submit");
       const action = {
         type: "SEARCH",
-        searchText: e.target.value
+        searchText: v
       };
       dispatch(action);
     },
