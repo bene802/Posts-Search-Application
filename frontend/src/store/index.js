@@ -25,6 +25,8 @@ const reducer = (state = initialState, action) => {
       });
     case "EDIT":
       return Object.assign({}, state, {});
+    case "SELECTVALUE":
+      return Object.assign({}, state, { searchInput: action.select });
     default:
       return state;
   }

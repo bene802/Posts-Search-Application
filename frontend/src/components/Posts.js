@@ -1,25 +1,39 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Api from "./Api";
+import ReactAutocomplete from "react-autocomplete";
 
 class Posts extends Component {
   componentDidMount() {
     this.props.initial();
   }
+
   render() {
     return (
       <div>
-        <form
-          onSubmit={e => this.props.handleSearch(e, this.props.searchInput)}
-        >
-          <input
+        <div>
+          <ReactAutocomplete
+            items={this.props.searchList}
+            getItemValue={item => item.title}
+            renderItem={(item, highlighted) => (
+              <div
+                key={item.id}
+                style={{
+                  backgroundColor: highlighted ? "#eee" : "transparent"
+                }}
+              >
+                {item.title}
+              </div>
+            )}
             value={this.props.searchInput}
             onChange={this.props.handleTyping}
+            onSelect={value => this.props.selectValue(value)}
           />
           <button type="submit" className="ml-2 btn btn-primary">
             Search
           </button>
-        </form>
+        </div>
+        <div className="mt-5">Results:</div>
         <div className="mt-3">
           {this.props.searchList.map(post => {
             return (
@@ -83,6 +97,9 @@ function mapDispatchToProps(dispatch) {
     },
     initial: () => {
       Api.getPosts(dispatch);
+    },
+    selectValue: v => {
+      dispatch({ type: "SELECTVALUE", select: v });
     }
   };
 }
