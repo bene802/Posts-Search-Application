@@ -4,7 +4,8 @@ import Search from "../components/Search";
 const initialState = {
   searchInput: "",
   posts: [],
-  searchList: []
+  searchList: [],
+  searchRes: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +16,7 @@ const reducer = (state = initialState, action) => {
       let searchRes = Search.searchTyping(state, action.searchText, "");
       return Object.assign({}, state, {
         searchInput: action.searchText,
-        searchList: searchRes
+        searchRes: searchRes
       });
     case "TYPING":
       let output = Search.searchTyping(state, action.searchText, "*");
@@ -25,8 +26,7 @@ const reducer = (state = initialState, action) => {
       });
     case "START":
       return Object.assign({}, state, {
-        posts: action.output,
-        searchList: action.output
+        posts: action.output
       });
     case "EDIT":
       return Object.assign({}, state, {});

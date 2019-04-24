@@ -1,6 +1,9 @@
 import lunr from "lunr";
 
 function searchTyping(props, searchText, str) {
+  if (!searchText) {
+    searchText = "*";
+  }
   //lunr
   const mapPosts = props.posts.reduce(function(map, obj) {
     map[obj.id] = obj;

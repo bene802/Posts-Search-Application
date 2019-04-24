@@ -4,7 +4,6 @@ function getPosts(dispatch) {
       return res.json();
     })
     .then(data => {
-      console.log(data);
       dispatch({ type: "START", output: data });
     });
 }
