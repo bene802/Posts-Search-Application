@@ -32,14 +32,12 @@ function searchTyping(props, searchText, str) {
     // search typing, fuzzy search to offer autosuggestion
     searchStr = searchText + "*";
   }
-  console.log(searchStr);
   const searchRes = idx.search(searchStr);
 
   let output = [];
   searchRes.map(s => {
     output.push(mapPosts[s.ref]);
   });
-  console.log(output);
   return output;
   //lunr end
 }

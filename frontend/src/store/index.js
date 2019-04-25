@@ -17,13 +17,13 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SEARCH":
-      console.log(action.searchText);
       let searchRes = Search.searchTyping(state, action.searchText, "");
       return Object.assign({}, state, {
         searchInput: action.searchText,
         searchRes: searchRes
       });
     case "TYPING":
+      console.log(state.editPost);
       let output = Search.searchTyping(state, action.searchText, "*");
       return Object.assign({}, state, {
         searchInput: action.searchText,
@@ -38,7 +38,6 @@ const reducer = (state = initialState, action) => {
     case "SELECTVALUE":
       return Object.assign({}, state, { searchInput: action.select });
     case "EDITSELECT":
-      console.log(action.post);
       state.editPost = {};
       let selected = Object.assign({}, action.post);
       return Object.assign({}, state, { editPost: selected });
@@ -49,7 +48,6 @@ const reducer = (state = initialState, action) => {
       let c = Object.assign({}, state.editPost, { body: action.content });
       return Object.assign({}, state, { editPost: c });
     case "EDITSAVE":
-      console.log(state.editPost);
       let postsCopy = state.posts.map(a => ({ ...a }));
       postsCopy.map(p => {
         if (p.id === state.editPost.id) {
@@ -74,8 +72,7 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         posts: postsCopy,
         searchList: searchListCopy,
-        searchRes: searchResCopy,
-        editPost: initialState.editPost
+        searchRes: searchResCopy
       });
     default:
       return state;

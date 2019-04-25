@@ -26,7 +26,7 @@ class Posts extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={this.props.editPost.title}
+                  value={this.props.editPost.title}
                   onChange={e => this.props.titleHandler(e)}
                 />
               </p>
@@ -35,7 +35,7 @@ class Posts extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  defaultValue={this.props.editPost.body}
+                  value={this.props.editPost.body}
                   onChange={e => this.props.contentHandler(e)}
                 />
               </p>
@@ -125,7 +125,6 @@ function mapDispatchToProps(dispatch) {
     },
     handleSearch: (e, v) => {
       e.preventDefault();
-      console.log("submit");
       const action = {
         type: "SEARCH",
         searchText: v
