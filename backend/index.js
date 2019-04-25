@@ -15,16 +15,27 @@ app.get("/api/posts", (req, res) => {
     return res.status(400).send("Bad Request. No title in query string.");
   }
   let query = String(req.query.title);
+  let searchStr = "";
   // if user input is empty, return all results.
+  console.log(query);
   if (!query) {
-    query = "*";
+    searchStr = "*";
+  } else {
+    query.split(" ").map(c => {
+      searchStr = searchStr + "+" + c + " ";
+    });
+    searchStr = searchStr.substring(0, searchStr.length - 1);
   }
+  console.log(searchStr);
   request(
     {
       url: url,
       json: true
     },
     function(error, response, body) {
+      if (error) {
+        return res.sendStatus(500).json(error);
+      }
       if (!error && response.statusCode === 200) {
         //console.log(body); // Print the json response
         posts = body.map(a => Object.assign({}, a));
@@ -40,15 +51,15 @@ app.get("/api/posts", (req, res) => {
             this.add(Object.assign({}, post));
           });
         });
-        const searchRes = idx.query(function(q) {
-          q.term(query, { fields: ["title"] });
-        });
+        const searchRes = idx.search(searchStr);
         let output = [];
         searchRes.map(s => {
           output.push(mapPosts[s.ref]);
         });
         res.header("Access-Control-Allow-Origin", "*");
         return res.send(output);
+      } else {
+        return res.sendStatus(response.statusCode);
       }
     }
   );
