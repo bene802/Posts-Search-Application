@@ -5,11 +5,16 @@ const initialState = {
   searchInput: "",
   posts: [],
   searchList: [],
-  searchRes: []
+  searchRes: [],
+  editPost: {
+    title: "",
+    id: 0,
+    body: "",
+    userId: 0
+  }
 };
 
 const reducer = (state = initialState, action) => {
-  //console.log(state, action);
   switch (action.type) {
     case "SEARCH":
       console.log(action.searchText);
@@ -32,6 +37,46 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, {});
     case "SELECTVALUE":
       return Object.assign({}, state, { searchInput: action.select });
+    case "EDITSELECT":
+      console.log(action.post);
+      state.editPost = {};
+      let selected = Object.assign({}, action.post);
+      return Object.assign({}, state, { editPost: selected });
+    case "EDITTITLE":
+      let t = Object.assign({}, state.editPost, { title: action.title });
+      return Object.assign({}, state, { editPost: t });
+    case "EDITCONTENT":
+      let c = Object.assign({}, state.editPost, { body: action.content });
+      return Object.assign({}, state, { editPost: c });
+    case "EDITSAVE":
+      console.log(state.editPost);
+      let postsCopy = state.posts.map(a => ({ ...a }));
+      postsCopy.map(p => {
+        if (p.id === state.editPost.id) {
+          p.title = state.editPost.title;
+          p.body = state.editPost.body;
+        }
+      });
+      let searchListCopy = state.searchList.map(a => ({ ...a }));
+      searchListCopy.map(p => {
+        if (p.id === state.editPost.id) {
+          p.title = state.editPost.title;
+          p.body = state.editPost.body;
+        }
+      });
+      let searchResCopy = state.searchRes.map(a => ({ ...a }));
+      searchResCopy.map(p => {
+        if (p.id === state.editPost.id) {
+          p.title = state.editPost.title;
+          p.body = state.editPost.body;
+        }
+      });
+      return Object.assign({}, state, {
+        posts: postsCopy,
+        searchList: searchListCopy,
+        searchRes: searchResCopy,
+        editPost: initialState.editPost
+      });
     default:
       return state;
   }
