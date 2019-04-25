@@ -22,7 +22,10 @@ function searchTyping(props, searchText, str) {
   if (!str) {
     // search submit
     searchText.split(" ").map(c => {
-      searchStr = searchStr + "+" + c + " ";
+      // skip space
+      if (c !== "") {
+        searchStr = searchStr + "+" + c + " ";
+      }
     });
     searchStr = searchStr.substring(0, searchStr.length - 1);
   } else {
