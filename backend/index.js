@@ -17,7 +17,6 @@ app.get("/api/posts", (req, res) => {
   let query = String(req.query.title);
   let searchStr = "";
   // if user input is empty, return all results.
-  console.log(query);
   if (!query) {
     searchStr = "*";
   } else {
@@ -26,7 +25,6 @@ app.get("/api/posts", (req, res) => {
     });
     searchStr = searchStr.substring(0, searchStr.length - 1);
   }
-  console.log(searchStr);
   request(
     {
       url: url,
@@ -37,7 +35,6 @@ app.get("/api/posts", (req, res) => {
         return res.sendStatus(500).json(error);
       }
       if (!error && response.statusCode === 200) {
-        //console.log(body); // Print the json response
         posts = body.map(a => Object.assign({}, a));
         const mapPosts = body.reduce(function(map, obj) {
           map[obj.id] = obj;
