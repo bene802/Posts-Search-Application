@@ -23,7 +23,6 @@ const reducer = (state = initialState, action) => {
         searchRes: searchRes
       });
     case "TYPING":
-      console.log(state.editPost);
       let output = Search.searchTyping(state, action.searchText, "*");
       return Object.assign({}, state, {
         searchInput: action.searchText,
@@ -49,26 +48,29 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { editPost: c });
     case "EDITSAVE":
       let postsCopy = state.posts.map(a => ({ ...a }));
-      postsCopy.map(p => {
-        if (p.id === state.editPost.id) {
-          p.title = state.editPost.title;
-          p.body = state.editPost.body;
+      for (const i in postsCopy) {
+        if (postsCopy[i].id === state.editPost.id) {
+          postsCopy[i].title = state.editPost.title;
+          postsCopy[i].body = state.editPost.body;
+          break;
         }
-      });
+      }
       let searchListCopy = state.searchList.map(a => ({ ...a }));
-      searchListCopy.map(p => {
-        if (p.id === state.editPost.id) {
-          p.title = state.editPost.title;
-          p.body = state.editPost.body;
+      for (const i in searchListCopy) {
+        if (searchListCopy[i].id === state.editPost.id) {
+          searchListCopy[i].title = state.editPost.title;
+          searchListCopy[i].body = state.editPost.body;
+          break;
         }
-      });
+      }
       let searchResCopy = state.searchRes.map(a => ({ ...a }));
-      searchResCopy.map(p => {
-        if (p.id === state.editPost.id) {
-          p.title = state.editPost.title;
-          p.body = state.editPost.body;
+      for (const i in searchResCopy) {
+        if (searchResCopy[i].id === state.editPost.id) {
+          searchResCopy[i].title = state.editPost.title;
+          searchResCopy[i].body = state.editPost.body;
+          break;
         }
-      });
+      }
       return Object.assign({}, state, {
         posts: postsCopy,
         searchList: searchListCopy,

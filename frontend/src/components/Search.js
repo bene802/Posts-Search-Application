@@ -21,12 +21,12 @@ function searchTyping(props, searchText, str) {
   let searchStr = "";
   if (!str) {
     // search submit
-    searchText.split(" ").map(c => {
-      // skip space
-      if (c !== "") {
-        searchStr = searchStr + "+" + c + " ";
+    const searchArray = searchText.split(" ");
+    for (const arr in searchArray) {
+      if (arr !== "") {
+        searchStr = searchStr + "+" + searchArray[arr] + " ";
       }
-    });
+    }
     searchStr = searchStr.substring(0, searchStr.length - 1);
   } else {
     // search typing, fuzzy search to offer autosuggestion
@@ -35,9 +35,9 @@ function searchTyping(props, searchText, str) {
   const searchRes = idx.search(searchStr);
 
   let output = [];
-  searchRes.map(s => {
-    output.push(mapPosts[s.ref]);
-  });
+  for (const i in searchRes) {
+    output.push(mapPosts[searchRes[i].ref]);
+  }
   return output;
   //lunr end
 }
