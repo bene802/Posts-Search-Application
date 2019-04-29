@@ -47,7 +47,7 @@ class Posts extends Component {
             onSubmit={e => this.props.handleSearch(e, this.props.searchInput)}
           >
             <ReactAutocomplete
-              items={this.props.searchList}
+              items={this.props.suggestList}
               getItemValue={item => item.title}
               renderItem={(item, highlighted) => (
                 <div
@@ -61,7 +61,7 @@ class Posts extends Component {
               )}
               value={this.props.searchInput}
               onChange={this.props.handleTyping}
-              onSelect={value => this.props.selectValue(value)}
+              onSelect={value => this.props.selectSuggest(value)}
             />
             <button type="submit" className="ml-2 btn btn-primary">
               Search
@@ -71,7 +71,7 @@ class Posts extends Component {
 
         <span className="mt-5 badge badge-pill badge-danger">Result</span>
         <div className="mt-3">
-          {this.props.searchRes.map(post => {
+          {this.props.output.map(post => {
             return (
               <div
                 key={post.id}
@@ -108,8 +108,8 @@ function mapStateToStatus(state) {
   return {
     searchInput: state.searchInput,
     posts: state.posts,
-    searchList: state.searchList,
-    searchRes: state.searchRes,
+    suggestList: state.suggestList,
+    output: state.output,
     editPost: state.editPost
   };
 }
@@ -134,8 +134,8 @@ function mapDispatchToProps(dispatch) {
     initial: () => {
       Api.getPosts(dispatch);
     },
-    selectValue: v => {
-      dispatch({ type: "SELECTVALUE", select: v });
+    selectSuggest: v => {
+      dispatch({ type: "SELECTSUGGEST", searchText: v });
     },
     editSelect: post => {
       dispatch({ type: "EDITSELECT", post: post });
