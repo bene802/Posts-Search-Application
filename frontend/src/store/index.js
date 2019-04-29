@@ -27,23 +27,53 @@ var updateItemPosts = (array, editPost) => {
   });
   return updatedItems;
 };
+var search = (state, action) => {
+  let exactOutput = Search.searchTyping(state, action.searchText, "");
+  exactOutput.sort((o1, o2) => {
+    return o1.title.localeCompare(o2.title);
+  });
+  return updateObj(state, {
+    searchInput: action.searchText,
+    output: exactOutput
+  });
+};
+var typing = (state, action) => {
+  const fuzzyOutput = Search.searchTyping(state, action.searchText, "*");
+  return updateObj(state, {
+    searchInput: action.searchText,
+    suggestList: fuzzyOutput
+  });
+};
+var editTitle = (state, action) => {
+  const editPost = updateObj(state.editPost, { title: action.title });
+  return updateObj(state, { editPost: editPost });
+};
+var editContent = (state, action) => {
+  const content = updateObj(state.editPost, { body: action.content });
+  return updateObj(state, { editPost: content });
+};
+var editSave = state => {
+  // save to posts
+  const posts = updateItemPosts(state.posts, state.editPost);
+  // save to suggestList
+  const suggestList = updateItemPosts(state.suggestList, state.editPost);
+  // save to output
+  const output = updateItemPosts(state.output, state.editPost);
+  output.sort((o1, o2) => {
+    return o1.title.localeCompare(o2.title);
+  });
+  return updateObj(state, {
+    posts: posts,
+    suggestList: suggestList,
+    output: output
+  });
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SEARCH":
-      let exactOutput = Search.searchTyping(state, action.searchText, "");
-      exactOutput.sort((o1, o2) => {
-        return o1.title.localeCompare(o2.title);
-      });
-      return updateObj(state, {
-        searchInput: action.searchText,
-        output: exactOutput
-      });
+      return search(state, action);
     case "TYPING":
-      const fuzzyOutput = Search.searchTyping(state, action.searchText, "*");
-      return updateObj(state, {
-        searchInput: action.searchText,
-        suggestList: fuzzyOutput
-      });
+      return typing(state, action);
     case "START":
       return updateObj(state, { posts: action.output });
     case "SELECTSUGGEST":
@@ -51,26 +81,11 @@ const reducer = (state = initialState, action) => {
     case "EDITSELECT":
       return updateObj(state, { editPost: action.post });
     case "EDITTITLE":
-      const editPost = updateObj(state.editPost, { title: action.title });
-      return updateObj(state, { editPost: editPost });
+      return editTitle(state, action);
     case "EDITCONTENT":
-      const content = updateObj(state.editPost, { body: action.content });
-      return updateObj(state, { editPost: content });
+      return editContent(state, action);
     case "EDITSAVE":
-      // save to posts
-      const posts = updateItemPosts(state.posts, state.editPost);
-      // save to suggestList
-      const suggestList = updateItemPosts(state.suggestList, state.editPost);
-      // save to output
-      const output = updateItemPosts(state.output, state.editPost);
-      output.sort((o1, o2) => {
-        return o1.title.localeCompare(o2.title);
-      });
-      return updateObj(state, {
-        posts: posts,
-        suggestList: suggestList,
-        output: output
-      });
+      return editSave(state);
     default:
       return state;
   }
