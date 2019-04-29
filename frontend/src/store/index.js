@@ -18,6 +18,9 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "SEARCH":
       let searchRes = Search.searchTyping(state, action.searchText, "");
+      searchRes.sort((o1, o2) => {
+        return o1.title.localeCompare(o2.title);
+      });
       return Object.assign({}, state, {
         searchInput: action.searchText,
         searchRes: searchRes
