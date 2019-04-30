@@ -13,7 +13,7 @@ const exactSearchHelper = (text, searchText) => {
 
 // user click search button, offer exact search
 const searchFilter = (searchText, posts) => {
-  // search all
+  // if it's empty, search all
   if (searchText === "") return posts.map(p => ({ ...p }));
   return posts.filter(post => {
     return exactSearchHelper(

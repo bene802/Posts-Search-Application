@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+
 const Edit = props => {
   return (
     <div className="border border-success">
@@ -45,18 +46,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     titleHandler: e => {
-      const action = {
-        type: "EDIT_TITLE",
-        title: e.target.value
-      };
-      dispatch(action);
+      dispatch({ type: "EDIT_TITLE", title: e.target.value });
     },
     contentHandler: e => {
-      const action = {
-        type: "EDIT_CONTENT",
-        content: e.target.value
-      };
-      dispatch(action);
+      dispatch({ type: "EDIT_CONTENT", content: e.target.value });
     },
     editSaveHandle: () => {
       dispatch({ type: "EDIT_SAVE" });

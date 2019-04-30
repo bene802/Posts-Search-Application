@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Api from "./Api";
-
 import Edit from "./Edit";
 import Results from "./Results";
 import Search from "./Search";

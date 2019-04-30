@@ -44,27 +44,18 @@ const mapStateToProps = state => {
   return {
     typingText: state.searchState.typingText,
     searchText: state.searchState.searchText,
-    posts: state.postState.posts,
-    editPost: state.postState.edit
+    posts: state.postState.posts
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     handleTyping: e => {
-      const action = {
-        type: "SEARCH_TYPING",
-        typingText: e.target.value
-      };
-      dispatch(action);
+      dispatch({ type: "SEARCH_TYPING", typingText: e.target.value });
     },
     handleSearch: (e, v) => {
       e.preventDefault();
-      const action = {
-        type: "SEARCH_SUBMIT",
-        searchText: v
-      };
-      dispatch(action);
+      dispatch({ type: "SEARCH_SUBMIT", searchText: v });
     },
     selectSuggest: v => {
       dispatch({ type: "SELECT_SUGGEST", searchText: v });
