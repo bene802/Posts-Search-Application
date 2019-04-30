@@ -4,7 +4,10 @@ function getPosts(dispatch) {
       return res.json();
     })
     .then(data => {
-      dispatch({ type: "LOAD_DATA", output: data });
+      const output = data.sort((a, b) => {
+        return a.title < b.title ? -1 : 1;
+      });
+      dispatch({ type: "LOAD_DATA", output: output });
     });
 }
 export default { getPosts };

@@ -14,8 +14,12 @@ const exactSearchHelper = (text, searchText) => {
 // user click search button, offer exact search
 const searchFilter = (searchText, posts) => {
   // if it's empty, search all
-  if (searchText === "") return posts.map(p => ({ ...p }));
-  return posts.filter(post => {
+  const newPosts = posts.map(p => ({ ...p }));
+  newPosts.sort((a, b) => {
+    return a.title < b.title ? -1 : 1;
+  });
+  if (searchText === "") return newPosts;
+  return newPosts.filter(post => {
     return exactSearchHelper(
       post.title.toLowerCase(),
       searchText.trim().toLowerCase()
