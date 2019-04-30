@@ -68,14 +68,15 @@ var editSave = state => {
     output: output
   });
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "START":
+      return updateObj(state, { posts: action.output });
     case "SEARCH":
       return search(state, action);
     case "TYPING":
       return typing(state, action);
-    case "START":
-      return updateObj(state, { posts: action.output });
     case "SELECTSUGGEST":
       return updateObj(state, { searchInput: action.searchText });
     case "EDITSELECT":
