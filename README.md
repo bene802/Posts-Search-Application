@@ -25,18 +25,25 @@ Demo video: https://www.youtube.com/watch?v=-2Ph4cKy6ww
 * Testing API services using Mocha, Chai library.
 
 ## Installing
-Backend: (port 5000)
 ```
+git clone git@github.com:bene802/Posts-Search-Application.git
+npm install
+```
+Backend: (listening port 5000)
+```
+cd backend
 nodemon index.js
 ```
 
 Frontend (http://localhost:3000/)
 ```
+cd frontend
 npm start
 ```
 
 Test
 ```
+cd backend
 npm test
 ```
 
