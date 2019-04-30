@@ -4,7 +4,7 @@ function getPosts(dispatch) {
       return res.json();
     })
     .then(data => {
-      dispatch({ type: "START", output: data });
+      dispatch({ type: "LOAD_DATA", output: data });
     });
 }
 export default { getPosts };

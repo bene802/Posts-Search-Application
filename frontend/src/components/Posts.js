@@ -3,6 +3,37 @@ import { connect } from "react-redux";
 import Api from "./Api";
 import ReactAutocomplete from "react-autocomplete";
 
+const exactSearchHelper = (text, searchText) => {
+  const l = text.indexOf(searchText);
+  if (l < 0) return false;
+  const r = l + searchText.length - 1;
+  // if there are still characters on the left or right side, return false
+  if (l - 1 >= 0 && !/\s/.test(text[l - 1])) return false;
+  if (r + 1 < text.length && !/\s/.test(text[r + 1])) return false;
+  return true;
+};
+
+// user click search button, offer exact search
+const searchFilter = (searchText, posts) => {
+  // search all
+  if (searchText === "") return posts.map(p => ({ ...p }));
+  return posts.filter(post => {
+    return exactSearchHelper(
+      post.title.toLowerCase(),
+      searchText.trim().toLowerCase()
+    );
+  });
+};
+
+// user typing, offer fuzzy search for auto-complete
+const typingFilter = (searchText, posts) => {
+  return posts.filter(post => {
+    return (
+      post.title.toLowerCase().indexOf(searchText.trim().toLowerCase()) >= 0
+    );
+  });
+};
+
 class Posts extends Component {
   componentDidMount() {
     this.props.initial();
@@ -44,10 +75,10 @@ class Posts extends Component {
         </div>
         <div className="mt-3">
           <form
-            onSubmit={e => this.props.handleSearch(e, this.props.searchInput)}
+            onSubmit={e => this.props.handleSearch(e, this.props.searchText)}
           >
             <ReactAutocomplete
-              items={this.props.suggestList}
+              items={typingFilter(this.props.typingText, this.props.posts)}
               getItemValue={item => item.title}
               renderItem={(item, highlighted) => (
                 <div
@@ -59,7 +90,7 @@ class Posts extends Component {
                   {item.title}
                 </div>
               )}
-              value={this.props.searchInput}
+              value={this.props.typingText}
               onChange={this.props.handleTyping}
               onSelect={value => this.props.selectSuggest(value)}
             />
@@ -71,7 +102,7 @@ class Posts extends Component {
 
         <span className="mt-5 badge badge-pill badge-danger">Result</span>
         <div className="mt-3">
-          {this.props.output.map(post => {
+          {searchFilter(this.props.searchText, this.props.posts).map(post => {
             return (
               <div
                 key={post.id}
@@ -106,11 +137,10 @@ class Posts extends Component {
 
 function mapStateToStatus(state) {
   return {
-    searchInput: state.searchInput,
-    posts: state.posts,
-    suggestList: state.suggestList,
-    output: state.output,
-    editPost: state.editPost
+    typingText: state.searchState.typingText,
+    searchText: state.searchState.searchText,
+    posts: state.postState.posts,
+    editPost: state.postState.edit
   };
 }
 
@@ -118,15 +148,15 @@ function mapDispatchToProps(dispatch) {
   return {
     handleTyping: e => {
       const action = {
-        type: "TYPING",
-        searchText: e.target.value
+        type: "SEARCH_TYPING",
+        typingText: e.target.value
       };
       dispatch(action);
     },
     handleSearch: (e, v) => {
       e.preventDefault();
       const action = {
-        type: "SEARCH",
+        type: "SEARCH_SUBMIT",
         searchText: v
       };
       dispatch(action);
@@ -135,27 +165,27 @@ function mapDispatchToProps(dispatch) {
       Api.getPosts(dispatch);
     },
     selectSuggest: v => {
-      dispatch({ type: "SELECTSUGGEST", searchText: v });
+      dispatch({ type: "SELECT_SUGGEST", searchText: v });
     },
     editSelect: post => {
-      dispatch({ type: "EDITSELECT", post: post });
+      dispatch({ type: "EDIT_SELECT", post: post });
     },
     titleHandler: e => {
       const action = {
-        type: "EDITTITLE",
+        type: "EDIT_TITLE",
         title: e.target.value
       };
       dispatch(action);
     },
     contentHandler: e => {
       const action = {
-        type: "EDITCONTENT",
+        type: "EDIT_CONTENT",
         content: e.target.value
       };
       dispatch(action);
     },
     editSaveHandle: () => {
-      dispatch({ type: "EDITSAVE" });
+      dispatch({ type: "EDIT_SAVE" });
     }
   };
 }
