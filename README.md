@@ -1,6 +1,6 @@
 # Posts-Search-Application
 
-A web application for posts search and edit.
+A web application for posts search and edit. Unit Test.
 
 Demo video: https://www.youtube.com/watch?v=-2Ph4cKy6ww
 
