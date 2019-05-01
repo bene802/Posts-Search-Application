@@ -1,6 +1,6 @@
 # Posts-Search-Application
 
-A web application for posts search and edit.
+A web application for posts search and edit. Unit Test.
 
 Demo video: https://www.youtube.com/watch?v=-2Ph4cKy6ww
 
@@ -22,6 +22,15 @@ Demo video: https://www.youtube.com/watch?v=-2Ph4cKy6ww
 * CORS allow.
 
 ## Unit Test
+
+### Frontend Test
+* jest, enzyme
+* Action Test
+* Component Test
+* Reducer Test
+
+### Backend Test
+
 * Testing API services using Mocha, Chai library.
 
 ## Installing
@@ -43,12 +52,15 @@ npm start
 
 Test
 ```
+cd frontend
+npm test
+```
+```
 cd backend
 npm test
 ```
 
 ## Future Works
-* First time to learn Redux. Make the code clean and scalable. Separate actions and reducers.
 * Frontend use Modal for editing post.
 * Frontend Pagination.
 * Build database.
