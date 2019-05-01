@@ -1,4 +1,4 @@
-import searchReducer from "../reducers/searchReducer";
+import searchReducer from "../../reducers/searchReducer";
 
 describe("search reducer", () => {
   let dummyState;

@@ -1,4 +1,4 @@
-import postReducer from "../reducers/postReducer";
+import postReducer from "../../reducers/postReducer";
 
 describe("post reducer", () => {
   let dummyState;
