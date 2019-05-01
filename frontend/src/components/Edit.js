@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-const Edit = props => {
+export const Edit = props => {
   return (
     <div className="border border-success">
       <span className="badge badge-pill badge-danger m-2">Edit</span>
@@ -37,13 +37,13 @@ const Edit = props => {
   );
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     editPost: state.postState.edit
   };
 };
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     titleHandler: e => {
       dispatch({ type: "EDIT_TITLE", title: e.target.value });
