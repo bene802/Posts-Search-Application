@@ -25,7 +25,7 @@ function mapStateToStatus(state) {
   return { state };
 }
 
-function mapDispatchToProps(dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     initial: () => {
       Api.getPosts(dispatch);

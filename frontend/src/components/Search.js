@@ -11,7 +11,7 @@ const typingFilter = (searchText, posts) => {
   });
 };
 
-const Search = props => {
+export const Search = props => {
   return (
     <div className="mt-3">
       <form onSubmit={e => props.handleSearch(e, props.searchText)}>
@@ -40,7 +40,7 @@ const Search = props => {
   );
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     typingText: state.searchState.typingText,
     searchText: state.searchState.searchText,
@@ -48,7 +48,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     handleTyping: e => {
       dispatch({ type: "SEARCH_TYPING", typingText: e.target.value });

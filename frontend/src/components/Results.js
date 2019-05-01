@@ -27,7 +27,7 @@ const searchFilter = (searchText, posts) => {
   });
 };
 
-const Results = props => {
+export const Results = props => {
   return (
     <React.Fragment>
       <span className="mt-5 badge badge-pill badge-danger">Result</span>
@@ -64,14 +64,14 @@ const Results = props => {
   );
 };
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     searchText: state.searchState.searchText,
     posts: state.postState.posts
   };
 };
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     editSelect: post => {
       dispatch({ type: "EDIT_SELECT", post: post });
